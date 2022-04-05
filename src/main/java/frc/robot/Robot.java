@@ -4,7 +4,7 @@
 
 package frc.robot;
 
-import com.revrobotics.ColorSensorV3;
+//import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
@@ -25,7 +25,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer robotContainer;
-  ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
+  //ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -52,14 +52,14 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    Color color = colorSensor.getColor();
+    /*Color color = colorSensor.getColor();
     double IR = colorSensor.getIR();
     double dis = colorSensor.getProximity();
     SmartDashboard.putNumber("blue", color.blue);
     SmartDashboard.putNumber("red", color.red);
     SmartDashboard.putNumber("green", color.green);
     SmartDashboard.putNumber("IR", IR);
-    SmartDashboard.putNumber("dis", dis);
+    SmartDashboard.putNumber("dis", dis);*/
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
