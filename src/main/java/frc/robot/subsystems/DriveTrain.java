@@ -4,22 +4,26 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.FollowerType;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 public class DriveTrain extends SubsystemBase {
   WPI_TalonSRX leftMaster = new WPI_TalonSRX(Constants.LeftMasterID);
   WPI_TalonSRX rightMaster = new WPI_TalonSRX(Constants.RightMasterID);
   WPI_VictorSPX leftSlave = new WPI_VictorSPX(Constants.LeftSlaveID);
   WPI_VictorSPX rightSlave = new WPI_VictorSPX(Constants.RightSlaveID);
+
+  
+  SlewRateLimiter limiter = new SlewRateLimiter(0.3);
 
   /** Creates a new DriveTrain. */
   public DriveTrain() {
@@ -34,10 +38,10 @@ public class DriveTrain extends SubsystemBase {
     leftMaster.clearStickyFaults(10);
     rightMaster.clearStickyFaults(10);
 
-    leftMaster.configOpenloopRamp(1);
-    rightMaster.configOpenloopRamp(1);
-    leftSlave.configOpenloopRamp(1);
-    rightSlave.configOpenloopRamp(1);
+    leftMaster.configOpenloopRamp(.1);
+    rightMaster.configOpenloopRamp(.1);
+    leftSlave.configOpenloopRamp(.1);
+    rightSlave.configOpenloopRamp(.1);
 
     leftMaster.setNeutralMode(NeutralMode.Coast);
     leftSlave.setNeutralMode(NeutralMode.Coast);
@@ -56,6 +60,7 @@ public class DriveTrain extends SubsystemBase {
 
   /** Makes Robot Go Brrrrrrr */
   public void DriveWithJoystick(Joystick driverJoystick) {
+    boolean safe = RobotContainer.chooser.getSelected();
     double joy_y = driverJoystick.getRawAxis(Constants.joystickX)*Constants.speedX;
     double joy_x = driverJoystick.getRawAxis(Constants.joystickY)*Constants.speedY;
     double threshold = .2;
@@ -86,8 +91,17 @@ public class DriveTrain extends SubsystemBase {
         rightMotorOutput = xSpeed - zRotation;
       }
     }
-    leftMaster.set(MathUtil.clamp(leftMotorOutput, -1.0, 1.0) * 1);
-    rightMaster.set(MathUtil.clamp(rightMotorOutput, -1.0, 1.0) * 1);
+    leftMotorOutput = MathUtil.clamp(leftMotorOutput, -1.0, 1.0) * 1;
+    rightMotorOutput = MathUtil.clamp(rightMotorOutput, -1.0, 1.0) * 1;
+
+    if(safe){
+      leftMotorOutput = limiter.calculate(leftMotorOutput);
+      rightMotorOutput = limiter.calculate(rightMotorOutput);
+    }
+    
+
+    leftMaster.set(leftMotorOutput);
+    rightMaster.set(rightMotorOutput);
   }
   
   /** Applys a Deadband */
