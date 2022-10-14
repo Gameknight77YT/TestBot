@@ -19,6 +19,6 @@ public final class Constants {
     public static final int RightSlaveID = 4;
     public static final int joystickX = 0;
     public static final int joystickY = 1;
-    public static final double speedX = .75;
-    public static final double speedY = .75;
+    public static final double speedX = .95;
+    public static final double speedY = .95;
 }

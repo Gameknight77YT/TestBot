@@ -23,6 +23,10 @@ public class DriveTrain extends SubsystemBase {
 
   /** Creates a new DriveTrain. */
   public DriveTrain() {
+    leftMaster.configFactoryDefault();
+    rightMaster.configFactoryDefault();
+    rightSlave.configFactoryDefault();
+    leftSlave.configFactoryDefault();
     leftSlave.follow(leftMaster);
     rightSlave.follow(rightMaster);
     // invert setup
@@ -34,10 +38,10 @@ public class DriveTrain extends SubsystemBase {
     leftMaster.clearStickyFaults(10);
     rightMaster.clearStickyFaults(10);
 
-    leftMaster.configOpenloopRamp(1);
-    rightMaster.configOpenloopRamp(1);
-    leftSlave.configOpenloopRamp(1);
-    rightSlave.configOpenloopRamp(1);
+    leftMaster.configOpenloopRamp(.1);
+    rightMaster.configOpenloopRamp(.1);
+    leftSlave.configOpenloopRamp(.1);
+    rightSlave.configOpenloopRamp(.1);
 
     leftMaster.setNeutralMode(NeutralMode.Coast);
     leftSlave.setNeutralMode(NeutralMode.Coast);
@@ -57,7 +61,7 @@ public class DriveTrain extends SubsystemBase {
   /** Makes Robot Go Brrrrrrr */
   public void DriveWithJoystick(Joystick driverJoystick) {
     double joy_y = driverJoystick.getRawAxis(Constants.joystickX)*Constants.speedX;
-    double joy_x = driverJoystick.getRawAxis(Constants.joystickY)*Constants.speedY;
+    double joy_x = -driverJoystick.getRawAxis(Constants.joystickY)*Constants.speedY;
     double threshold = .2;
     double leftMotorOutput;
     double rightMotorOutput;
