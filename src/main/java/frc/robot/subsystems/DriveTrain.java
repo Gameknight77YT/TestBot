@@ -61,8 +61,12 @@ public class DriveTrain extends SubsystemBase {
   /** Makes Robot Go Brrrrrrr */
   public void DriveWithJoystick(Joystick driverJoystick) {
     boolean safe = RobotContainer.chooser.getSelected();
-    double joy_y = driverJoystick.getRawAxis(Constants.joystickX)*Constants.speedX;
-    double joy_x = driverJoystick.getRawAxis(Constants.joystickY)*Constants.speedY;
+    double joy_y = safe ? 
+      driverJoystick.getRawAxis(Constants.joystickX)*(Constants.speedX - .2)
+      : driverJoystick.getRawAxis(Constants.joystickX)*Constants.speedX;
+    double joy_x = safe ? 
+      driverJoystick.getRawAxis(Constants.joystickY)*(Constants.speedY - .2):
+      driverJoystick.getRawAxis(Constants.joystickY)*Constants.speedY;
     double threshold = .2;
     double leftMotorOutput;
     double rightMotorOutput;
