@@ -7,6 +7,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.subsystems.DriveTrain;
@@ -23,6 +25,8 @@ public class RobotContainer {
 
   private DriveWithJoysticks driveWithJoysticks;
 
+  public static SendableChooser<Boolean> chooser = new SendableChooser<>();
+
   Joystick driverJoystick;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -33,6 +37,11 @@ public class RobotContainer {
 
     driveWithJoysticks = new DriveWithJoysticks(driveTrain, driverJoystick);
     driveTrain.setDefaultCommand(driveWithJoysticks);
+
+    chooser.setDefaultOption("Human Rider Mode", true);
+    chooser.addOption("Defence Bot Mode", false);
+    SmartDashboard.putData(chooser);
+
     // Configure the button bindings
     configureButtonBindings();
   }
