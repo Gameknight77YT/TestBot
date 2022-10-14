@@ -27,6 +27,10 @@ public class DriveTrain extends SubsystemBase {
 
   /** Creates a new DriveTrain. */
   public DriveTrain() {
+    leftMaster.configFactoryDefault();
+    rightMaster.configFactoryDefault();
+    rightSlave.configFactoryDefault();
+    leftSlave.configFactoryDefault();
     leftSlave.follow(leftMaster);
     rightSlave.follow(rightMaster);
     // invert setup
