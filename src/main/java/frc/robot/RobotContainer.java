@@ -21,25 +21,27 @@ import frc.robot.subsystems.DriveTrain;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private DriveTrain driveTrain;
+  private final DriveTrain driveTrain;
 
-  private DriveWithJoysticks driveWithJoysticks;
+  private final DriveWithJoysticks driveWithJoysticks;
 
-  public static SendableChooser<Boolean> chooser = new SendableChooser<>();
+  public final SendableChooser<Boolean> chooser = new SendableChooser<>();
 
-  Joystick driverJoystick;
+  private Joystick driverJoystick;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     driverJoystick = new Joystick(0);
 
-    driveTrain = new DriveTrain();
+    chooser.setDefaultOption("Human Rider Mode", true);
+    chooser.addOption("Defence Bot Mode", false);
+
+    driveTrain = new DriveTrain(chooser);
 
     driveWithJoysticks = new DriveWithJoysticks(driveTrain, driverJoystick);
     driveTrain.setDefaultCommand(driveWithJoysticks);
 
-    chooser.setDefaultOption("Human Rider Mode", true);
-    chooser.addOption("Defence Bot Mode", false);
+    
     SmartDashboard.putData(chooser);
 
     // Configure the button bindings

@@ -6,11 +6,11 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
 
-public class DriveWithJoysticks extends CommandBase {
+public class DriveWithJoysticks extends Command {
   private final DriveTrain driveTrain;
   private Joystick joystick;
   /** Creates a new DriveWithJoysticks. */
